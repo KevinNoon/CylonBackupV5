@@ -1,18 +1,21 @@
 package com.optimised.cylonbackup.views.about;
 
+import com.optimised.cylonbackup.views.MainLayout;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
-import org.vaadin.lineawesome.LineAwesomeIconUrl;
+import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("About")
-@Route("")
-@Menu(order = 0, icon = LineAwesomeIconUrl.FILE)
+@Route(value = "about", layout = MainLayout.class)
+@RouteAlias(value = "", layout = MainLayout.class)
+@AnonymousAllowed
 public class AboutView extends VerticalLayout {
 
     public AboutView() {
@@ -22,10 +25,10 @@ public class AboutView extends VerticalLayout {
         img.setWidth("200px");
         add(img);
 
-        H2 header = new H2("This place intentionally left empty");
+        H2 header = new H2("Cylon Backup Manager");
         header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
         add(header);
-        add(new Paragraph("It’s a place where you can grow your own UI 🤗"));
+        add(new Paragraph("Version 4 🤗"));
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);
