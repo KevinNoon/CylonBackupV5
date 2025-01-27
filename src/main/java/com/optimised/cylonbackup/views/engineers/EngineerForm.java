@@ -5,6 +5,7 @@ import com.optimised.cylonbackup.views.CommonObjects;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -67,7 +68,14 @@ public class EngineerForm extends FormLayout {
 
     private void validateAndDelete(){
         if (binder.isValid() && binder.getBean().getId() != null) {
-            fireEvent(new DeleteEvent(this,binder.getBean()));
+            ConfirmDialog confirmDialog = new ConfirmDialog();
+            confirmDialog.setHeader("Confirm Deletion");
+            confirmDialog.setText("Are you sure you want to delete this engineer?");
+            confirmDialog.setConfirmButton("Delete", event -> {
+                fireEvent(new DeleteEvent(this, binder.getBean()));
+            });
+            confirmDialog.setCancelButton("Cancel", event -> fireEvent(new CloseEvent(this)));
+            confirmDialog.open();
         }
     }
 

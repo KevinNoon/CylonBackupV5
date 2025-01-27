@@ -8,18 +8,18 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.IntegerField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.shared.Registration;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.Generated;
-import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.checkerframework.checker.units.qual.C;
 
 @RolesAllowed({"ADMIN"})
 @PageTitle("Email Settings")
@@ -29,12 +29,12 @@ public class EmailSettingsView extends VerticalLayout {
     @Generated
     private static final Logger log = LogManager.getLogger(EmailSettingsView.class);
     TextField userName = new TextField("Username");
-    TextField userPassword = new TextField("Password");
+    PasswordField userPassword = new PasswordField("Password");
     TextField pop3Host = new TextField("Pop3 Host");
-    TextField pop3Port = new TextField("Pop3 Port");
+    IntegerField pop3Port = new IntegerField("Pop3 Port");
     TextField smtpHost = new TextField("SMTP Host");
-    TextField smtpPort = new TextField("SMTP Port");
-    TextField smtpFrom = new TextField("From");
+    IntegerField smtpPort = new IntegerField("SMTP Port");
+    EmailField smtpFrom = new EmailField("From");
     Checkbox smtpAuth = new Checkbox("SMTP Auth");
     Checkbox smtpStarttlsEnable = new Checkbox("SMTP Starttls Enable");
     Checkbox smtpStartTlsReq = new Checkbox("SMTP Start TLS Req");
@@ -58,8 +58,11 @@ public class EmailSettingsView extends VerticalLayout {
 
     private void   createLayout(){
         userName.setWidth("25%");
-        userName.setPlaceholder("Username");
+        userName.setPlaceholder("someone@mail.com");
+        userName.setErrorMessage("Invalid username");
         userName.setRequired(true);
+        userName.setRequiredIndicatorVisible(true);
+        userName.setMinLength(3);
         userPassword.setWidth("25%");
         userPassword.setPlaceholder("Password");
         userPassword.setRequired(true);
@@ -76,21 +79,22 @@ public class EmailSettingsView extends VerticalLayout {
         smtpFrom.setWidth("25%");
         smtpFrom.setPlaceholder("From");
         smtpAuth.setWidth("25%");
-        smtpAuth.setValue(true);
+        //smtpAuth.setValue(true);
         smtpStarttlsEnable.setWidth("25%");
-        smtpStarttlsEnable.setValue(true);
+        //smtpStarttlsEnable.setValue(true);
         smtpStartTlsReq.setWidth("25%");
-        smtpStartTlsReq.setValue(true);
+        //smtpStartTlsReq.setValue(true);
     }
 
     private void updateValues(){
         EmailSetting emailSetting = emailSettingService.getSetting();
+        System.out.println(emailSetting);
         userName.setValue(emailSetting.getUserName());
         userPassword.setValue(emailSetting.getUserPassword());
         pop3Host.setValue(emailSetting.getPop3Host());
-        pop3Port.setValue(emailSetting.getPop3Port() + "");
+        pop3Port.setValue(emailSetting.getPop3Port());
         smtpHost.setValue(emailSetting.getSmtpHost());
-        smtpPort.setValue(emailSetting.getSmtpPort() + "");
+        smtpPort.setValue(emailSetting.getSmtpPort());
         smtpFrom.setValue(emailSetting.getSmtpFrom());
         smtpAuth.setValue(emailSetting.getSmtpAuth());
         smtpStarttlsEnable.setValue(emailSetting.getSmtpStarttlsEnable());

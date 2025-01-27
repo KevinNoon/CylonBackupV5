@@ -8,7 +8,6 @@ import org.apache.logging.log4j.MarkerManager;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.Optional;
 
 @Log4j2
 @Service

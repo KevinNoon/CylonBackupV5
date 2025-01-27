@@ -56,4 +56,8 @@ public class EngineerService {
     public Optional<Engineer> findById(Long id){
         return engineerRepo.findById(id);
     }
+
+    public Optional<Engineer> findByFullName(String foreName, String lastName) {
+        return engineerRepo.findByForenameAndLastname(foreName,lastName);
+    }
 }

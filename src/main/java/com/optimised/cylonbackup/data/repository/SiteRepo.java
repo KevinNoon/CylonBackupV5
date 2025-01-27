@@ -2,7 +2,6 @@ package com.optimised.cylonbackup.data.repository;
 
 import com.optimised.cylonbackup.data.entity.Engineer;
 import com.optimised.cylonbackup.data.entity.Site;
-import org.apache.catalina.Engine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

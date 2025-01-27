@@ -7,7 +7,7 @@
     <groupId>com.optimised.cylonbackup</groupId>
     <artifactId>cylonbackup</artifactId>
     <name>cylonbackup</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>4.01-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <properties>

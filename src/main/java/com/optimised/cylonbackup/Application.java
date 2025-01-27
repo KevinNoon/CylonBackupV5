@@ -13,9 +13,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * and some desktop browsers.
  *
  */
+
 @EnableScheduling
 @SpringBootApplication
 @Theme(value = "cylonbackup")
+//@Theme(value = "mytheme")
 public class Application implements AppShellConfigurator {
 
     public static void main(String[] args) {

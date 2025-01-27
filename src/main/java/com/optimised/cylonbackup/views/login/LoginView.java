@@ -9,7 +9,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.internal.RouteUtil;
 import com.vaadin.flow.server.VaadinService;
-import com.vaadin.flow.server.auth.AnonymousAllowed;
 import jakarta.annotation.security.RolesAllowed;
 
 @RolesAllowed("ADMIN")

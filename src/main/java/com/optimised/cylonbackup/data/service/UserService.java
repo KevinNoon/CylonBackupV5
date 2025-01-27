@@ -53,6 +53,15 @@ public class UserService {
         return userRepo.findByUsername(username);
     }
 
+    public User findUserByNameAndUserName(String name,String username){
+        Optional <User> user = userRepo.findByNameAndUserName(name,username);
+        return user.orElseGet(User::new);
+    }
+
+    public Optional<User> findUserById(Long id){
+            return userRepo.findById(id);
+    }
+
     public List<User> findAllUsers(){
         return userRepo.findAll();
     }

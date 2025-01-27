@@ -1,6 +1,8 @@
 package com.optimised.cylonbackup.data.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
@@ -17,8 +19,11 @@ public class Engineer {
         initialValue = 101
     )
     private Long id;
+    @Size(min = 3, max = 24)
     private String forename;
+    @Size(min = 3, max = 24)
     private String lastname;
+    @NotEmpty
     private String email;
 //    @OneToMany(mappedBy = "engineer", fetch = FetchType.EAGER)
 //    private Set<Site> site;

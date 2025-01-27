@@ -7,6 +7,7 @@ import com.optimised.cylonbackup.views.MainLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -111,6 +112,8 @@ public class SettingsView extends VerticalLayout {
 
   private void validateAndSave() {
     if (binder.isValid()) {
-      settingService.saveSetting(binder.getBean());};
+      settingService.saveSetting(binder.getBean());
+      Notification.show("Settings saved");
+    };
   }
 }

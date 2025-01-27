@@ -2,7 +2,6 @@ package com.optimised.cylonbackup.views.engineers;
 
 import com.optimised.cylonbackup.data.entity.Engineer;
 import com.optimised.cylonbackup.data.entity.Site;
-import com.optimised.cylonbackup.data.repository.SiteRepo;
 import com.optimised.cylonbackup.data.service.EngineerService;
 import com.optimised.cylonbackup.data.service.SiteService;
 import com.optimised.cylonbackup.security.AuthenticatedUser;
@@ -15,7 +14,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 
 import java.util.Optional;
@@ -77,6 +75,10 @@ public class EngineersView extends VerticalLayout {
     }
 
     private void saveEngineer(EngineerForm.SaveEvent event) {
+        if ((event.getEngineer().getId() == null) && (engineerService.findByFullName(
+            event.getEngineer().getForename(),event.getEngineer().getLastname()).isPresent())){
+                Notification.show("This name already exists");
+            } else
         engineerService.saveEngineer(event.getEngineer());
         updateList();
         closeEditor();

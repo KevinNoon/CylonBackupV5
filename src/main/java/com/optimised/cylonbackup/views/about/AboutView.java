@@ -10,7 +10,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility.Margin;
-import jakarta.annotation.security.RolesAllowed;
 
 @PageTitle("About")
 @Route(value = "about", layout = MainLayout.class)
@@ -28,7 +27,7 @@ public class AboutView extends VerticalLayout {
         H2 header = new H2("Cylon Backup Manager");
         header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
         add(header);
-        add(new Paragraph("Version 4 🤗"));
+        add(new Paragraph("Version 4.01 🤗"));
 
         setSizeFull();
         setJustifyContentMode(JustifyContentMode.CENTER);

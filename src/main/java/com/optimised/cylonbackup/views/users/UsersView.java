@@ -8,6 +8,7 @@ import com.optimised.cylonbackup.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
@@ -19,12 +20,13 @@ import jakarta.annotation.security.RolesAllowed;
 @Route(value = "users", layout = MainLayout.class)
 public class UsersView extends VerticalLayout {
 
-    Grid<User> grid= new Grid<>(User.class);
+    Grid<User> grid = new Grid<>(User.class);
     UserForm form;
     UserService userService;
     SecurityConfiguration securityConfiguration;
     AuthenticatedUser authenticatedUser;
-    public UsersView(UserService userService, SecurityConfiguration securityConfiguration,AuthenticatedUser authenticatedUser){
+
+    public UsersView(UserService userService, SecurityConfiguration securityConfiguration, AuthenticatedUser authenticatedUser) {
         this.userService = userService;
         this.securityConfiguration = securityConfiguration;
         this.authenticatedUser = authenticatedUser;
@@ -32,7 +34,7 @@ public class UsersView extends VerticalLayout {
         setSizeFull();
         configureGrid();
         configureForm();
-        add(getToolbar(),getContent());
+        add(getToolbar(), getContent());
         updateList();
         closeEditor();
     }
@@ -70,9 +72,15 @@ public class UsersView extends VerticalLayout {
     }
 
     private void saveUser(UserForm.SaveEvent event) {
-        userService.save(event.getUser());
-        updateList();
-        closeEditor();
+        if ((event.getUser().getId() == null) && (userService.findUserByNameAndUserName(
+            event.getUser().getName(),event.getUser().getUsername()).getId() != null)) {
+            Notification.show("User already exists");
+        } else {
+            System.out.println(event.getUser());
+            userService.save(event.getUser());
+            updateList();
+            closeEditor();
+        }
     }
 
     private void deleteUser(UserForm.DeleteEvent event) {
@@ -81,10 +89,10 @@ public class UsersView extends VerticalLayout {
         closeEditor();
     }
 
-    private void configureGrid(){
+    private void configureGrid() {
         grid.addClassNames("user-grid");
         grid.setSizeFull();
-        grid.setColumns("name","username");
+        grid.setColumns("name", "username");
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(event -> editUser(event.getValue()));
     }

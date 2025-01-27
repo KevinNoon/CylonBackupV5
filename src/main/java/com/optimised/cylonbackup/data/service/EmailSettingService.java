@@ -8,8 +8,6 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Log4j2
 @Service
 public class EmailSettingService {
@@ -28,7 +26,7 @@ public class EmailSettingService {
     private EmailSetting setDefault(){
         EmailSetting emailSetting = new EmailSetting();
         emailSetting.setId(1L);
-        emailSetting.setUserName("Someone@Gmail.com");
+        emailSetting.setUserName("Someone@mail.com");
         emailSetting.setUserPassword("password");
         emailSetting.setPop3Host("pop.gmail.com");
         emailSetting.setPop3Port(995);
@@ -37,6 +35,7 @@ public class EmailSettingService {
         emailSetting.setSmtpAuth(true);
         emailSetting.setSmtpStartTlsReq(true);
         emailSetting.setSmtpStarttlsEnable(true);
+        emailSetting.setSmtpFrom("Someone@mail.com");
         emailSettingRepo.save(emailSetting);
         return emailSetting;
     }

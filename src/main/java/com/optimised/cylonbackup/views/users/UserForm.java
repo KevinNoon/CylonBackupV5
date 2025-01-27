@@ -5,11 +5,13 @@ import com.optimised.cylonbackup.data.entity.User;
 import com.optimised.cylonbackup.security.AuthenticatedUser;
 import com.optimised.cylonbackup.security.SecurityConfiguration;
 import com.optimised.cylonbackup.views.CommonObjects;
+import com.optimised.cylonbackup.views.engineers.EngineerForm;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.checkbox.CheckboxGroup;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -36,6 +38,8 @@ public class UserForm extends FormLayout {
     Button save = new Button("Save");
     Button delete = new Button("Delete");
     Button cancel = new Button("Cancel");
+
+    Boolean newUser;
 
     Binder<User> binder = new BeanValidationBinder<>(User.class);
     //private final UserService userService;
@@ -76,6 +80,8 @@ public class UserForm extends FormLayout {
     }
 
     private void validateAndSave() {
+        newUser = binder.getBean().getId() == null;
+
         if (binder.isValid()) {
             User user = binder.getBean();
             String p1 = password1.getValue().trim();
@@ -105,22 +111,33 @@ public class UserForm extends FormLayout {
             }
             else if (roles.getSelectedItems().isEmpty()) {
                 Notification.show("User must have at least one role");
-            } else {
+            }
+                else {
                  if (!p1.isEmpty()) {
                      String passwordHash = this.securityConfiguration.passwordEncoder().encode(p1);
                      user.setHashedPassword(passwordHash);
                  }
+                System.out.println(binder.getBean().getName());
                 fireEvent(new SaveEvent(this, binder.getBean()));
             }
         }
     }
 
     private void validateAndDelete(){
+        ConfirmDialog confirmDialog = new ConfirmDialog();
+        confirmDialog.setHeader("Confirm Deletion");
+        confirmDialog.setText("Are you sure you want to delete this user?");;
+        confirmDialog.setConfirmButton("Delete", event -> {
+            fireEvent(new DeleteEvent(this,binder.getBean()));
+        });
+        confirmDialog.setCancelButton("Cancel", event -> fireEvent(new CloseEvent(this)));
+
         if (binder.getBean().getId() != null && binder.isValid()){
+            System.out.println(authenticatedUser.get());
             Optional<User> maybeUser = authenticatedUser.get();
             if (maybeUser.isPresent()){
                 if (!maybeUser.get().getUsername().equals(binder.getBean().getUsername())){
-                    fireEvent(new DeleteEvent(this,binder.getBean()));
+                    confirmDialog.open();
                 } else {
                     Notification.show("Can not delete yourself");
                 }
